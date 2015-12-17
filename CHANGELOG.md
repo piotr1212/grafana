@@ -1,4 +1,16 @@
-# 2.6.0 (2015-12-04)
+# 3.0.0 (unrelased master branch)
+
+
+### Breaking changes
+**InfluxDB 0.8.x** The data source for the old version of influxdb (0.8.x) is no longer included in default builds. Can easily be installed via improved plugin system, closes #3523
+**KairosDB** The data source is no longer included in default builds. Can easily be installed via improved plugin system, closes #3524
+
+# 2.6.1 (unrelased, 2.6.x branch)
+
+### New Features
+* **Elasticsearch**: Support for derivative unit option, closes [#3512](https://github.com/grafana/grafana/issues/3512)
+
+# 2.6.0 (2015-12-14)
 
 ### New Features
 * **Elasticsearch**: Support for pipeline aggregations Moving average and derivative, closes [#2715](https://github.com/grafana/grafana/issues/2715)

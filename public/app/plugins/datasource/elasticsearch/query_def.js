@@ -14,8 +14,8 @@ function (_) {
       {text: "Extended Stats",  value: 'extended_stats', requiresField: true, supportsMissing: true, supportsInlineScript: true},
       {text: "Percentiles",  value: 'percentiles', requiresField: true, supportsMissing: true, supportsInlineScript: true},
       {text: "Unique Count", value: "cardinality", requiresField: true, supportsMissing: true},
-      {text: "Moving Average",  value: 'moving_avg', requiresField: false, isPipelineAgg: true },
-      {text: "Derivative",  value: 'derivative', requiresField: false, isPipelineAgg: true },
+      {text: "Moving Average",  value: 'moving_avg', requiresField: false, isPipelineAgg: true, minVersion: 2},
+      {text: "Derivative",  value: 'derivative', requiresField: false, isPipelineAgg: true, minVersion: 2 },
       {text: "Raw Document", value: "raw_document", requiresField: false}
     ],
 
@@ -73,7 +73,19 @@ function (_) {
         {text: 'window', default: 5},
         {text: 'model', default: 'simple'}
       ],
-      'derivative': []
+      'derivative': [
+        {text: 'unit', default: undefined},
+      ]
+    },
+
+    getMetricAggTypes: function(esVersion) {
+      return _.filter(this.metricAggTypes, function(f) {
+        if (f.minVersion) {
+          return f.minVersion <= esVersion;
+        } else {
+          return true;
+        }
+      });
     },
 
     getPipelineOptions: function(metric) {
