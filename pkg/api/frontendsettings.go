@@ -45,6 +45,7 @@ func getFrontendSettingsMap(c *middleware.Context) (map[string]interface{}, erro
 			"type": ds.Type,
 			"name": ds.Name,
 			"url":  url,
+			"global": ds.Global,
 		}
 
 		meta, exists := enabledPlugins.DataSources[ds.Type]

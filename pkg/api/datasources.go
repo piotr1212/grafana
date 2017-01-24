@@ -5,6 +5,7 @@ import (
 
 	"github.com/grafana/grafana/pkg/api/dtos"
 	"github.com/grafana/grafana/pkg/bus"
+	"github.com/grafana/grafana/pkg/log"
 	"github.com/grafana/grafana/pkg/middleware"
 	m "github.com/grafana/grafana/pkg/models"
 	"github.com/grafana/grafana/pkg/plugins"
@@ -12,7 +13,9 @@ import (
 )
 
 func GetDataSources(c *middleware.Context) {
-	query := m.GetDataSourcesQuery{OrgId: c.OrgId}
+	//query := m.GetDataSourcesQuery{OrgId: c.OrgId}
+	query := m.GetDataSourcesOrgQuery{OrgId: c.OrgId}
+	log.Warn("datasources.go: GetDataSources")
 
 	if err := bus.Dispatch(&query); err != nil {
 		c.JsonApiErr(500, "Failed to query datasources", err)
@@ -34,6 +37,7 @@ func GetDataSources(c *middleware.Context) {
 			BasicAuth: ds.BasicAuth,
 			IsDefault: ds.IsDefault,
 			JsonData:  ds.JsonData,
+			Global:    ds.Global,
 		}
 
 		if plugin, exists := plugins.DataSources[ds.Type]; exists {
@@ -207,6 +211,7 @@ func convertModelToDtos(ds *m.DataSource) dtos.DataSource {
 		IsDefault:         ds.IsDefault,
 		JsonData:          ds.JsonData,
 		SecureJsonFields:  map[string]bool{},
+		Global:            ds.Global,
 	}
 
 	for k, v := range ds.SecureJsonData {

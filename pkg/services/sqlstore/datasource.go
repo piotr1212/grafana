@@ -12,6 +12,7 @@ import (
 
 func init() {
 	bus.AddHandler("sql", GetDataSources)
+	bus.AddHandler("sql", GetDataSourcesOrg)
 	bus.AddHandler("sql", AddDataSource)
 	bus.AddHandler("sql", DeleteDataSource)
 	bus.AddHandler("sql", UpdateDataSource)
@@ -44,6 +45,13 @@ func GetDataSourceByName(query *m.GetDataSourceByNameQuery) error {
 }
 
 func GetDataSources(query *m.GetDataSourcesQuery) error {
+	sess := x.Limit(1000, 0).Where("org_id=? or global=1", query.OrgId).Asc("name")
+
+	query.Result = make([]*m.DataSource, 0)
+	return sess.Find(&query.Result)
+}
+
+func GetDataSourcesOrg(query *m.GetDataSourcesOrgQuery) error {
 	sess := x.Limit(1000, 0).Where("org_id=?", query.OrgId).Asc("name")
 
 	query.Result = make([]*m.DataSource, 0)
@@ -83,6 +91,7 @@ func AddDataSource(cmd *m.AddDataSourceCommand) error {
 			BasicAuthPassword: cmd.BasicAuthPassword,
 			WithCredentials:   cmd.WithCredentials,
 			JsonData:          cmd.JsonData,
+			Global:            cmd.Global,
 			SecureJsonData:    securejsondata.GetEncryptedJsonData(cmd.SecureJsonData),
 			Created:           time.Now(),
 			Updated:           time.Now(),
@@ -130,6 +139,7 @@ func UpdateDataSource(cmd *m.UpdateDataSourceCommand) error {
 			BasicAuthPassword: cmd.BasicAuthPassword,
 			WithCredentials:   cmd.WithCredentials,
 			JsonData:          cmd.JsonData,
+			Global:            cmd.Global,
 			SecureJsonData:    securejsondata.GetEncryptedJsonData(cmd.SecureJsonData),
 			Updated:           time.Now(),
 		}
@@ -137,6 +147,7 @@ func UpdateDataSource(cmd *m.UpdateDataSourceCommand) error {
 		sess.UseBool("is_default")
 		sess.UseBool("basic_auth")
 		sess.UseBool("with_credentials")
+		sess.UseBool("global")
 
 		_, err := sess.Where("id=? and org_id=?", ds.Id, ds.OrgId).Update(ds)
 		if err != nil {

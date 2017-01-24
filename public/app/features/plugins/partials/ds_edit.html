@@ -30,22 +30,26 @@
         <div class="gf-form-inline">
 					<div class="gf-form">
 						<span class="gf-form-label width-7">Name</span>
-						<input class="gf-form-input max-width-21" type="text" ng-model="ctrl.current.name" placeholder="My data source name" required>
+						<input class="gf-form-input max-width-21 width-13" type="text" ng-model="ctrl.current.name" placeholder="My data source name" required>
 						<info-popover offset="0px -135px" mode="right-absolute">
 							The name is used when you select the data source in panels.
 							The <em>Default</em> data source is preselected in new
 							panels.
+							The <em>Global</em> data source is available from all organizations
 						</info-popover>
 					</div>
-					<gf-form-switch class="gf-form" label="Default" checked="ctrl.current.isDefault" switch-class="max-width-6"></gf-form-switch>
+					<gf-form-switch class="gf-form" label="Default" checked="ctrl.current.isDefault" switch-class="max-width-6" label-class="width-6"></gf-form-switch>
 				</div>
 
-				<div class="gf-form">
-					<span class="gf-form-label width-7">Type</span>
-					<div class="gf-form-select-wrapper max-width-23">
-						<select class="gf-form-input" ng-model="ctrl.current.type" ng-options="v.id as v.name for v in ctrl.types" ng-change="ctrl.typeChanged()"></select>
-					</div>
-				</div>
+        <div class="gf-form-inline">
+  				<div class="gf-form">
+  					<span class="gf-form-label width-7">Type</span>
+  					<div class="gf-form-select-wrapper max-width-21 width-13">
+  						<select class="gf-form-input" ng-model="ctrl.current.type" ng-options="v.id as v.name for v in ctrl.types" ng-change="ctrl.typeChanged()"></select>
+  					</div>
+  				</div>
+          <gf-form-switch class="gf-form" label="Global" checked="ctrl.current.global" switch-class="max-width-6" label-class="width-6"></gf-form-switch>
+        </div>
 			</div>
 
 			<rebuild-on-change property="ctrl.datasourceMeta.id">

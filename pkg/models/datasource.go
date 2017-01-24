@@ -48,6 +48,7 @@ type DataSource struct {
 	IsDefault         bool
 	JsonData          *simplejson.Json
 	SecureJsonData    securejsondata.SecureJsonData
+  Global            bool
 
 	Created time.Time
 	Updated time.Time
@@ -93,6 +94,7 @@ type AddDataSourceCommand struct {
 	IsDefault         bool              `json:"isDefault"`
 	JsonData          *simplejson.Json  `json:"jsonData"`
 	SecureJsonData    map[string]string `json:"secureJsonData"`
+	Global            bool              `json:"global"`
 
 	OrgId int64 `json:"-"`
 
@@ -115,6 +117,7 @@ type UpdateDataSourceCommand struct {
 	IsDefault         bool              `json:"isDefault"`
 	JsonData          *simplejson.Json  `json:"jsonData"`
 	SecureJsonData    map[string]string `json:"secureJsonData"`
+	Global            bool              `json:"global"`
 
 	OrgId int64 `json:"-"`
 	Id    int64 `json:"-"`
@@ -129,6 +132,11 @@ type DeleteDataSourceCommand struct {
 // QUERIES
 
 type GetDataSourcesQuery struct {
+	OrgId  int64
+	Result []*DataSource
+}
+
+type GetDataSourcesOrgQuery struct {
 	OrgId  int64
 	Result []*DataSource
 }

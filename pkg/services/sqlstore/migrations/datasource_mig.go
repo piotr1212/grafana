@@ -106,4 +106,9 @@ func addDataSourceMigration(mg *Migrator) {
 	mg.AddMigration("Add secure json data column", NewAddColumnMigration(tableV2, &Column{
 		Name: "secure_json_data", Type: DB_Text, Nullable: true,
 	}))
+
+	// add column to specify if the ds is globally available in all orgs
+	mg.AddMigration("Add column for global datasources", NewAddColumnMigration(tableV2, &Column{
+		Name: "global", Type: DB_Bool, Nullable: false, Default: "0",
+	}))
 }

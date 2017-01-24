@@ -82,6 +82,7 @@ type DataSource struct {
 	IsDefault         bool             `json:"isDefault"`
 	JsonData          *simplejson.Json `json:"jsonData,omitempty"`
 	SecureJsonFields  map[string]bool  `json:"secureJsonFields"`
+	Global            bool             `json:"global"`
 }
 
 type DataSourceList []DataSource
